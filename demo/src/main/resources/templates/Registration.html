@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1E042B, #8341A3);
+        }
+
+        .register-box {
+            background: #1C0430;
+            padding: 30px;
+            width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(1,2,3,20);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #D5A5F0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input:focus, select:focus {
+            border-color: #4e73df;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #130F47;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #261F82;
+        }
+
+        .register-btn {
+            background: #6D5C94;
+        }
+
+        .register-btn:hover {
+            background: #47474A;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .register-box {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-box">
+    <h2>Register</h2>
+
+    <!-- Connected to Spring Boot -->
+    <form th:action="@{/register}" method="post">
+
+        <input type="text" name="First_Name" placeholder="First Name" required>
+        <input type="text" name="Last_Name" placeholder="Last Name" required>
+        <input type="text" name="Full_Name" placeholder="Full Name" required>
+        <select name="countryCode" required style="width:30%;">
+            <option value="+91">+91</option>
+        </select>
+        <input type="tel" name="Mob_No" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="Password" minlength="6" placeholder="Password" required>
+
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="Normal User">Normal User</option>
+        </select>
+
+        <button type="submit">Register</button>
+
+        <button type="button"
+                class="login-btn"
+                onclick="window.location.href='/'">
+            Login
+        </button>
+
+        <!-- Success Message -->
+        <div class="message" style="color:green;" th:if="${success}">
+            Registration Successful! Please Login.
+        </div>
+
+        <!-- Error Message -->
+        <div class="message" style="color:red;" th:if="${error}">
+            Username already exists!
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

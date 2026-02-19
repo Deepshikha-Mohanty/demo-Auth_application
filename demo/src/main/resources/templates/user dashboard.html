@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS NOT CHANGED -->
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial; }
+        body { background:#CEAFDE; }
+
+        .navbar {
+            background:#2F0E40;
+            color:white;
+            padding:15px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logout-btn {
+            background:#303370;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:4px;
+            cursor:pointer;
+        }
+
+        .container {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:90vh;
+            padding:20px;
+        }
+
+        .profile-card {
+            background:#A278BF;
+            width:450px;
+            padding:30px;
+            border-radius:8px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .profile-card h2 {
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        .profile-info p {
+            margin-bottom:10px;
+        }
+
+        .edit-btn {
+            background:#0C052E;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:4px;
+            cursor:pointer;
+            margin-top:15px;
+            width:100%;
+        }
+
+        .modal {
+            display:none;
+            position:fixed;
+            left:0; top:0;
+            width:100%; height:100%;
+            background:rgba(0,0,0,0.5);
+            justify-content:center;
+            align-items:center;
+        }
+
+        .modal-content {
+            background:white;
+            padding:20px;
+            width:400px;
+            border-radius:6px;
+        }
+
+        .modal-content input {
+            width:100%;
+            padding:8px;
+            margin-bottom:10px;
+            border:1px solid #ccc;
+            border-radius:4px;
+        }
+
+        .save-btn {
+            background:#28a745;
+            color:white;
+            padding:8px;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+            width:100%;
+        }
+
+        .close-btn {
+            background:red;
+            color:white;
+            border:none;
+            padding:5px 8px;
+            float:right;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>User Dashboard</h2>
+    <form th:action="@{/logout}" method="post">
+        <button class="logout-btn" type="submit">Logout</button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="profile-card">
+        <h2>My Profile</h2>
+
+        <div class="profile-info">
+            <p><strong>First Name:</strong> <span th:text="${user.First_Name}"></span></p>
+            <p><strong>Last Name:</strong> <span th:text="${user.Last_Name}"></span></p>
+            <p><strong>Full Name:</strong> <span th:text="${user.Full_Name}"></span></p>
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.Email}"></span></p>
+            <p><strong>Country Code:</strong> <span th:text="${user.countryCode}"></span></p>
+            <p><strong>Mobile:</strong> <span th:text="${user.Mob_No}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.Role}"></span></p>
+        </div>
+
+        <button class="edit-btn" onclick="openModal()">Edit Profile</button>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <h3>Edit Profile</h3>
+
+        <form th:action="@{/update-profile}" method="post" th:object="${user}">
+            <input type="text" th:field="*{First_Name}" placeholder="First Name">
+            <input type="text" th:field="*{Last_Name}" placeholder="Last Name">
+            <input type="text" th:field="*{Full_Name}" placeholder="Full Name">
+            <input type="text" th:field="*{countryCode}" placeholder="Country Code">
+            <input type="tel" th:field="*{Mob_No}" placeholder="Mobile">
+            <input type="email" th:field="*{Email}" placeholder="Email">
+            <input type="password" th:field="*{Password}" placeholder="Password">
+
+            <input type="text" th:field="*{username}" readonly>
+            <input type="text" th:field="*{Role}" readonly>
+
+            <button class="save-btn" type="submit">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(){
+        document.getElementById("editModal").style.display = "flex";
+    }
+
+    function closeModal(){
+        document.getElementById("editModal").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

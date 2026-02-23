@@ -91,16 +91,14 @@
 <div class="login-box">
     <h2>Login</h2>
 
-    <!-- Spring Security Login Form -->
+    <!-- LOCAL LOGIN -->
     <form th:action="@{/login}" method="post">
 
-        <!-- IMPORTANT: name must be 'username' -->
         <input type="email"
                name="username"
                placeholder="Enter Email"
                required>
 
-        <!-- IMPORTANT: name must be 'password' -->
         <input type="password"
                name="password"
                placeholder="Enter Password"
@@ -123,8 +121,20 @@
         <div class="message" style="color:green;" th:if="${param.logout}">
             Logged out successfully!
         </div>
-
     </form>
+
+    <!-- DIVIDER -->
+    <div style="text-align:center; margin:15px 0; color:white;">
+        OR
+    </div>
+
+    <!-- GLUU LOGIN -->
+    <a th:href="@{/oauth2/authorization/gluu}">
+        <button type="button">
+            Login with Gluu
+        </button>
+    </a>
+
 </div>
 
 </body>

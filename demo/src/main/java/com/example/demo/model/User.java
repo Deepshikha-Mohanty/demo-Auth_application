@@ -1,24 +1,31 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "users")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int uid;
-    String First_Name;
-    String Last_Name;
-    String Full_Name;
-    String Mob_No;
-    String username;
-    String countryCode;
-    String Email;
-    String Password;
-    String Role;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int uid;
+
+    private String firstName;
+    private String lastName;
+    private String fullName;
+
+    private String mobNo;
+    private String countryCode;
+
+    @Column(unique = true, nullable = false)
+    private String username;   // used for local login
+
+    @Column(unique = true)
+    private String email;      // used for OIDC login
+
+    private String password;
+
+    private String role;       // Admin / Normal User
 }

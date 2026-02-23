@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,13 +19,13 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
-    // Plain text password comparison (NOT for production)
-
+    // Password Encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Local DB Login
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -36,9 +35,9 @@ public class SecurityConfig {
                             new UsernameNotFoundException("User not found"));
 
             return org.springframework.security.core.userdetails.User
-                    .withUsername(user.getUsername())   // your field name
-                    .password(user.getPassword())        // plain password
-                    .authorities(user.getRole())         // Admin / Normal User
+                    .withUsername(user.getUsername())
+                    .password(user.getPassword())
+                    .authorities(user.getRole())
                     .build();
         };
     }
@@ -48,17 +47,17 @@ public class SecurityConfig {
             throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+                // Keep CSRF enabled
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/login"))
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/register", "/css/**").permitAll()
-                        .requestMatchers("/admin-dashboard")
-                        .hasAuthority("Admin")
-                        .requestMatchers("/user-dashboard")
-                        .hasAuthority("Normal User")
+                        .requestMatchers("/admin-dashboard").hasAuthority("Admin")
+                        .requestMatchers("/user-dashboard").authenticated() // allow both local + gluu
                         .anyRequest().authenticated()
                 )
 
+                // LOCAL LOGIN
                 .formLogin(form -> form
                         .loginPage("/")
                         .loginProcessingUrl("/login")
@@ -76,6 +75,12 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
+                // GLUU OIDC LOGIN
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/")
+                        .defaultSuccessUrl("/user-dashboard", true)
+                )
+
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                         .permitAll()
@@ -83,4 +88,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

@@ -16,32 +16,56 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
-    // Register new user (plain password)
+    // REGISTER LOCAL USER
     public void registerUser(User user) {
         userRepo.save(user);
     }
 
-    // Find user by username
+
+    // FIND BY USERNAME (Local Login)
     public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
-    // Check if username already exists
+
+    // FIND BY EMAIL (OIDC Login)
+    public Optional<User> findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+
+    // CHECK USERNAME EXISTS
     public boolean usernameExists(String username) {
         return userRepo.findByUsername(username).isPresent();
     }
 
-    // Get all users (for Admin Dashboard)
+
+    // AUTO CREATE OIDC USER
+    public User createOidcUser(String email, String fullName) {
+
+        User user = new User();
+        user.setUsername(email);       // using email as username
+        user.setEmail(email);
+        user.setFullName(fullName);
+        user.setRole("Normal User");
+
+        return userRepo.save(user);
+    }
+
+
+    // ADMIN DASHBOARD
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
 
-    // Save / Update user (for profile update)
+
+    // SAVE / UPDATE
     public User save(User user) {
         return userRepo.save(user);
     }
 
-    // Delete user (optional – for future admin feature)
+
+    // DELETE USER
     public void deleteUser(int uid) {
         userRepo.deleteById(uid);
     }
@@ -49,6 +73,4 @@ public class UserService {
     public Optional<User> findById(int uid) {
         return userRepo.findById(uid);
     }
-
-
 }

@@ -9,7 +9,11 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 
+    // Local Login
     Optional<User> findByUsername(String username);
-
     boolean existsByUsername(String username);
+
+    // OIDC Login (Gluu)
+    Optional<User> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

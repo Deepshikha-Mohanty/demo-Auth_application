@@ -4,7 +4,7 @@
     <title>User Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS NOT CHANGED -->
+    <!CSS NOT CHANGED>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:Arial; }
         body { background:#CEAFDE; }
@@ -122,37 +122,37 @@
         <h2>My Profile</h2>
 
         <div class="profile-info">
-            <p><strong>First Name:</strong> <span th:text="${user.First_Name}"></span></p>
-            <p><strong>Last Name:</strong> <span th:text="${user.Last_Name}"></span></p>
-            <p><strong>Full Name:</strong> <span th:text="${user.Full_Name}"></span></p>
+            <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+            <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+            <p><strong>Full Name:</strong> <span th:text="${user.fullName}"></span></p>
             <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-            <p><strong>Email:</strong> <span th:text="${user.Email}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
             <p><strong>Country Code:</strong> <span th:text="${user.countryCode}"></span></p>
-            <p><strong>Mobile:</strong> <span th:text="${user.Mob_No}"></span></p>
-            <p><strong>Role:</strong> <span th:text="${user.Role}"></span></p>
+            <p><strong>Mobile:</strong> <span th:text="${user.mobNo}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
         </div>
 
         <button class="edit-btn" onclick="openModal()">Edit Profile</button>
     </div>
 </div>
 
-<!-- Edit Modal -->
+<! Edit Modal>
 <div class="modal" id="editModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">X</button>
         <h3>Edit Profile</h3>
 
         <form th:action="@{/update-profile}" method="post" th:object="${user}">
-            <input type="text" th:field="*{First_Name}" placeholder="First Name">
-            <input type="text" th:field="*{Last_Name}" placeholder="Last Name">
-            <input type="text" th:field="*{Full_Name}" placeholder="Full Name">
+            <input type="text" th:field="*{firstName}" placeholder="First Name">
+            <input type="text" th:field="*{lastName}" placeholder="Last Name">
+            <input type="text" th:field="*{fullName}" placeholder="Full Name">
             <input type="text" th:field="*{countryCode}" placeholder="Country Code">
-            <input type="tel" th:field="*{Mob_No}" placeholder="Mobile">
-            <input type="email" th:field="*{Email}" placeholder="Email">
-            <input type="password" th:field="*{Password}" placeholder="Password">
+            <input type="tel" th:field="*{mobNo}" placeholder="Mobile">
+            <input type="email" th:field="*{email}" placeholder="Email">
+            <input type="password" th:field="*{password}" placeholder="Password">
 
             <input type="text" th:field="*{username}" readonly>
-            <input type="text" th:field="*{Role}" readonly>
+            <input type="text" th:field="*{role}" readonly>
 
             <button class="save-btn" type="submit">Save Changes</button>
         </form>

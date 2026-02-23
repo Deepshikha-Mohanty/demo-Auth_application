@@ -89,24 +89,22 @@
 <div class="register-box">
     <h2>Register</h2>
 
-    <!-- Connected to Spring Boot -->
+    <!-- Spring Boot registration -->
     <form th:action="@{/register}" method="post">
 
-        <input type="text" name="First_Name" placeholder="First Name" required>
-        <input type="text" name="Last_Name" placeholder="Last Name" required>
-        <input type="text" name="Full_Name" placeholder="Full Name" required>
+        <input type="text" name="firstName" placeholder="First Name" required>
+        <input type="text" name="lastName" placeholder="Last Name" required>
+        <input type="text" name="fullName" placeholder="Full Name" required>
         <select name="countryCode" required style="width:30%;">
             <option value="+91">+91</option>
         </select>
-        <input type="tel" name="Mob_No" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+        <input type="tel" name="mobNo" placeholder="Mobile Number" pattern="[0-9]{10}" required>
         <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="Password" minlength="6" placeholder="Password" required>
+        <input type="password" name="password" minlength="6" placeholder="Password" required>
 
-        <select name="role" required>
-            <option value="">Select Role</option>
-            <option value="Normal User">Normal User</option>
-        </select>
+        <!-- Only Normal User allowed -->
+        <input type="hidden" name="role" value="Normal User">
 
         <button type="submit">Register</button>
 
@@ -118,7 +116,7 @@
 
         <!-- Success Message -->
         <div class="message" style="color:green;" th:if="${success}">
-            Registration Successful! Please Login.
+            Registration Successful! Please Login
         </div>
 
         <!-- Error Message -->
